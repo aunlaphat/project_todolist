@@ -3,12 +3,12 @@ import {
   Table,
   Checkbox,
   Tooltip,
-  Input,
   DatePicker,
   Button,
   Select,
   Space,
   Typography,
+  Tag,
 } from "antd";
 import {
   EditOutlined,
@@ -21,9 +21,11 @@ import {
   ClockCircleOutlined,
   NumberOutlined,
   ThunderboltOutlined,
+  DownOutlined, RightOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { PRIORITY_OPTIONS } from "../data/constants";
+import { statusColorMap } from "../utils/statusColors";
 
 const { Paragraph } = Typography;
 
@@ -34,11 +36,48 @@ const TaskTable = ({
   onDelete,
   onInlineUpdate,
   onOpenDetail,
+  onAddSubtask,
+  onToggleExpand,
+  setTasks,
 }) => {
   const handleCopyLink = (key) => {
     const url = `${window.location.origin}/information-task/${key}`;
     navigator.clipboard.writeText(url);
   };
+
+//   const toggleExpand = (key) => {
+//     // สมมติว่าคุณเก็บ expanded state ไว้ใน task
+//     const updateExpand = (list) =>
+//       list.map((task) => {
+//         if (task.key === key) {
+//           return { ...task, expanded: !task.expanded };
+//         }
+//         if (task.children) {
+//           return { ...task, children: updateExpand(task.children) };
+//         }
+//         return task;
+//       });
+  
+//     setTasks(updateExpand(tasks)); // หรือ state จาก props
+//   };
+
+// Flatten tree by recursion only expanded nodes
+const flattenTasks = (list, level = 0) => {
+    return list.reduce((acc, task) => {
+      const item = { ...task, level };
+      acc.push(item);
+  
+      if (task.expanded && task.children?.length > 0) {
+        acc.push(...flattenTasks(task.children, level + 1));
+      }
+  
+      return acc;
+    }, []);
+  };
+  
+  const flattenedData = flattenTasks(tasks);
+  
+  
 
   const columns = [
     {
@@ -54,30 +93,63 @@ const TaskTable = ({
       ),
     },
     {
-      title: (
-        <Space>
-          <ThunderboltOutlined />
-          Priority
-        </Space>
-      ),
-      dataIndex: "priority",
-      width: 100,
-      render: (priority, record) => {
-        const isSubtask = record.level > 0;
-        return (
-          <div style={{ paddingLeft: isSubtask ? 16 * record.level : 0 }}>
-            <Select
-              value={priority}
-              onChange={(val) => onInlineUpdate(record.key, "priority", val)}
-              options={PRIORITY_OPTIONS}
-              style={{ width: 80 }}
-              dropdownStyle={{ minWidth: 100 }}
-              dropdownMatchSelectWidth={false}
-            />
-          </div>
-        );
+        title: (
+          <Space>
+            <ThunderboltOutlined />
+            Priority
+          </Space>
+        ),
+        dataIndex: "priority",
+        width: 200,
+        render: (priority, record) => {
+          const isSubtask = record.level > 0;
+          const hasChildren = record.children && record.children.length > 0;
+      
+          return (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: isSubtask ? 16 * record.level : 0,
+              }}
+            >
+              {/* Expand/Collapse */}
+              {hasChildren ? (
+                <Button
+                  icon={record.expanded ? <DownOutlined /> : <RightOutlined />}
+                  size="small"
+                  type="text"
+                  onClick={() => onToggleExpand(record.key)}
+                  style={{ marginRight: 4 }}
+                />
+              ) : (
+                <span style={{ width: 22, marginRight: 4 }} />
+              )}
+      
+              {/* Priority Dropdown */}
+              <Select
+                value={priority}
+                onChange={(val) => onInlineUpdate(record.key, "priority", val)}
+                options={PRIORITY_OPTIONS}
+                style={{ width: 80 }}
+                dropdownStyle={{ minWidth: 100 }}
+                dropdownMatchSelectWidth={false}
+              />
+      
+              {/* Add Subtask */}
+              <Button
+                icon={<PlusOutlined />}
+                size="small"
+                type="text"
+                onClick={() =>
+                  onEdit({ parentId: record.key, level: (record.level || 0) + 1 })
+                }
+                style={{ marginLeft: 4 }}
+              />
+            </div>
+          );
+        },
       },
-    },
     {
       title: (
         <Space>
@@ -86,7 +158,7 @@ const TaskTable = ({
         </Space>
       ),
       dataIndex: "key",
-      width: 150,
+      width: 200,
       render: (key, record) => (
         <Space>
           <Button type="link" onClick={() => onOpenDetail(key)}>
@@ -124,17 +196,18 @@ const TaskTable = ({
       ),
     },
     {
-      title: (
-        <Space>
-          <ClockCircleOutlined />
-          Status
-        </Space>
-      ),
-      dataIndex: "status",
-      width: 120,
-      render: (status) =>
-        status === "DONE" ? "✅ Done" : "⏳ In Progress",
-    },
+        title: <ClockCircleOutlined />,
+        dataIndex: "status",
+        key: "status",
+        render: (status) => (
+          <Tag
+            color={statusColorMap[status] || "default"}
+            style={{ fontWeight: "bold", textTransform: "uppercase" }}
+          >
+            {status}
+          </Tag>
+        ),
+      },
     {
       title: (
         <Space>
@@ -193,7 +266,7 @@ const TaskTable = ({
       title: "Action",
       key: "action",
       fixed: "right",
-      width: 160,
+      width: 120,
       render: (_, record) => (
         <Space>
           <Tooltip title="Edit">
@@ -202,9 +275,9 @@ const TaskTable = ({
           <Tooltip title="Delete">
             <Button icon={<DeleteOutlined />} danger onClick={() => onDelete(record.key)} />
           </Tooltip>
-          <Tooltip title="Add Subtask">
+          {/* <Tooltip title="Add Subtask">
             <Button icon={<PlusOutlined />} onClick={() => onEdit({ parentId: record.key, level: (record.level || 0) + 1 })} />
-          </Tooltip>
+          </Tooltip> */}
         </Space>
       ),
     },
@@ -213,16 +286,16 @@ const TaskTable = ({
   return (
     <Table
       columns={columns}
-      dataSource={tasks}
+      dataSource={flattenedData}
       rowKey="key"
       pagination={false}
-      expandable={{
-        childrenColumnName: "children",
-        defaultExpandAllRows: true,
-      }}
       scroll={{ x: 1200 }}
       bordered
       rowClassName={() => "task-row"}
+      expandable={{
+        childrenColumnName: "__DO_NOT_EXPAND__", // ชื่อหลอก ทำให้ไม่แสดง expand
+        expandIconColumnIndex: -1, // ปิดคอลัมน์ expand icon
+      }}
     />
   );
 };

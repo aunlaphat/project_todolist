@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form, Input, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/easytask-logo.png";
+import bgImage from "../assets/images/Task-amico.png";
 
 const { Title } = Typography;
 
@@ -30,30 +32,93 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: 360, margin: "4rem auto" }}>
-      <Title level={3} style={{ textAlign: "center" }}>
-        {isRegistering ? "Register" : "Login"}
-      </Title>
-      <Form layout="vertical" onFinish={handleSubmit}>
-        <Form.Item name="username" label="Username" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="password" label="Password" rules={[{ required: true }]}>
-          <Input.Password />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            {isRegistering ? "Register" : "Login"}
-          </Button>
-        </Form.Item>
-      </Form>
-      <Button
-        type="link"
-        onClick={() => setIsRegistering(!isRegistering)}
-        block
+<div
+  style={{
+    minHeight: "100vh",
+    display: "flex",
+    background: "linear-gradient(to right, #ede9f3, #f5f3fa)",
+    position: "relative",
+  }}
+>
+  {/* โลโก้มุมบนซ้าย */}
+  <img
+    src={logo}
+    alt="EasyTask Logo"
+    style={{
+      position: "absolute",
+      top: 10,
+      left: 32,
+      width: 200,
+      filter: "drop-shadow(0 4px 6px rgba(123, 97, 255, 0.2))",
+    }}
+  />
+
+  {/* พื้นหลังด้านซ้าย */}
+  <div
+    style={{
+      flex: 1,
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }}
+  />
+
+      {/* ขวา - กล่องฟอร์ม + โลโก้ */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "3rem",
+        }}
       >
-        {isRegistering ? "Already have an account? Login" : "New user? Register"}
-      </Button>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "12px",
+            boxShadow: "0 12px 30px rgba(0,0,0,0.1)",
+            padding: "2rem",
+            maxWidth: 360,
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+            
+      
+          <Title level={3} style={{ color: "#7b61ff", marginBottom: 32 }}>
+            Welcome to EasyTask
+          </Title>
+
+          <Form layout="vertical" onFinish={handleSubmit} style={{ width: "100%" }}>
+            <Form.Item name="username" label="Username" rules={[{ required: true }]}>
+              <Input placeholder="Enter your username" />
+            </Form.Item>
+            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+              <Input.Password placeholder="Enter your password" />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                style={{ backgroundColor: "#7b61ff", borderColor: "#7b61ff" }}
+              >
+                {isRegistering ? "Register" : "Login"}
+              </Button>
+            </Form.Item>
+          </Form>
+
+          <Button
+            type="link"
+            onClick={() => setIsRegistering(!isRegistering)}
+            style={{ color: "#7b61ff" }}
+          >
+            {isRegistering ? "Already have an account? Login" : "New user? Register"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
