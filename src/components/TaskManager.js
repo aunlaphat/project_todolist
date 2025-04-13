@@ -236,7 +236,7 @@ const toggleFilter = () => setShowFilter(prev => !prev);
           <Button
             icon={<PlusOutlined />}
             type="primary"
-            style={{ backgroundColor: "#7b61ff", borderColor: "#7b61ff" }}
+            style={{ backgroundColor: "#8BD348", borderColor: "#8BD348" }}
             onClick={handleAdd}
           >
             เพิ่ม Task

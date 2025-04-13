@@ -1,10 +1,6 @@
 import React from "react";
-import { Layout, Avatar, Tooltip } from "antd";
-import {
-  QuestionCircleOutlined,
-  SettingOutlined,
-  BellOutlined,
-} from "@ant-design/icons";
+import { Layout, Avatar, Tooltip, } from "antd";
+import { QuestionCircleOutlined, SettingOutlined, BellOutlined, } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/easytask-logo.png";
 
@@ -22,7 +18,7 @@ export default function Navbar() {
   return (
     <Header
     style={{
-        background: "#f5f3fa",
+        background: "#E4C5FD",
         padding: "0 2rem",
         borderBottom: "1px solid #eaeaea",
         display: "flex",
@@ -33,9 +29,6 @@ export default function Navbar() {
       {/* ✅ ชื่อแอปอยู่ซ้าย */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
     <img src={logo} alt="EasyTask Logo" style={{ height: 140, objectFit: "contain"}} />
-    {/* <Title level={4} style={{ margin: 0, color: "#001529" }}>
-      EasyTask
-    </Title> */}
   </div>
 
       {/* ✅ ปุ่มต่าง ๆ ด้านขวา */}
