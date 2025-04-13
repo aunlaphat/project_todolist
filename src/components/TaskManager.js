@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Layout,
-  Button,
-  Input,
-  message,
-  Select,
-  Switch,
-} from "antd";
-import {
-  PlusOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-  BulbOutlined,
-  FilterOutlined,
-} from "@ant-design/icons";
+import {Button, Input, message, Switch, } from "antd";
+import {PlusOutlined, DownloadOutlined, UploadOutlined, BulbOutlined, FilterOutlined, } from "@ant-design/icons";
 import { loadTasks, saveTasks } from "../utils/localStorage";
+import { generateTaskKey } from "../utils/keyGenerator";
+import { useNavigate, useLocation } from "react-router-dom";
 import TaskTable from "./TaskTable";
 import TaskModal from "./TaskModal";
 import TaskFilterPanel from "./TaskFilterPanel";
-import { generateTaskKey } from "../utils/keyGenerator";
-import { useNavigate, useLocation } from "react-router-dom";
 import cuteImage from "../assets/images/Work in progress-amico.png";
 
 const TaskManager = () => {
@@ -27,7 +14,6 @@ const TaskManager = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const [sortOrder, setSortOrder] = useState("desc");
   const [darkMode, setDarkMode] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 const toggleFilter = () => setShowFilter(prev => !prev);
@@ -40,14 +26,8 @@ const toggleFilter = () => setShowFilter(prev => !prev);
     dueThisWeek: false,
     doneOnly: false,
     dateRange: null,
-    assignees: [], // optional: หากอยากเลือก filter ผู้รับผิดชอบ
+    assignees: [], 
   });
-
-  
-  const currentUser = localStorage.getItem("jira_current_user");
-  
-  // ดึง assignee ทั้งหมดจาก task
-  const assigneeList = Array.from(new Set(tasks.map(t => t.assignee).filter(Boolean)));
 
   useEffect(() => {
     const data = loadTasks();

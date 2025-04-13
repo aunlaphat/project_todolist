@@ -1,32 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadTasks } from "../utils/localStorage";
-import {
-  Card,
-  Typography,
-  Tag,
-  Space,
-  Button,
-  Divider,
-  Avatar,
-  Tooltip,
-  Progress,
-  Table,
-} from "antd";
-import {
-  LeftOutlined,
-  ThunderboltOutlined,
-  UserOutlined,
-  CalendarOutlined,
-  CheckCircleOutlined,
-  ShareAltOutlined,
-  AppstoreAddOutlined,
-  CloseOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
+import {Card, Typography, Tag, Space, Button, Divider, Progress, Table, } from "antd";
+import {LeftOutlined, ThunderboltOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
+ ShareAltOutlined, AppstoreAddOutlined, CloseOutlined, EyeOutlined, } from "@ant-design/icons";
 import dayjs from "dayjs";
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text, } = Typography;
 
 const findTaskByKey = (list, key) => {
   for (const item of list) {
@@ -131,7 +111,7 @@ const TaskDetail = () => {
           <Space>
             <UserOutlined />
             <Text>
-              <strong>Assignee:</strong> {task.assignee || <Text type="secondary">Unassigned</Text>}
+              <strong>Assigned:</strong> {task.assignee || <Text type="secondary">Unassigned</Text>}
             </Text>
           </Space>
           <Space>

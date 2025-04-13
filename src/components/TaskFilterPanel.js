@@ -1,6 +1,5 @@
 import { DatePicker, Checkbox, Avatar, Divider } from "antd";
 import { UserOutlined, CalendarOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
 
 const TaskFilterPanel = ({
   filter,
@@ -43,7 +42,7 @@ const TaskFilterPanel = ({
 
       <Divider />
 
-      <div style={{ marginBottom: 8 }}>Assignee</div>
+      <div style={{ marginBottom: 8 }}>Assigned</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
         {assigneeList.map((name) => (
           <Avatar key={name} style={{ backgroundColor: "#7b61ff", cursor: "pointer" }}>

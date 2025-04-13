@@ -133,7 +133,7 @@ const flattenTasks = (list, level = 0) => {
                 options={PRIORITY_OPTIONS}
                 style={{ width: 80 }}
                 dropdownStyle={{ minWidth: 100 }}
-                dropdownMatchSelectWidth={false}
+                popupMatchSelectWidth={false}
               />
       
               {/* Add Subtask */}
@@ -182,7 +182,7 @@ const flattenTasks = (list, level = 0) => {
         </Space>
       ),
       dataIndex: "title",
-      width: 300,
+      width: 200,
       render: (text, record) => (
         <Paragraph
         editable={{
@@ -196,8 +196,14 @@ const flattenTasks = (list, level = 0) => {
       ),
     },
     {
-        title: <ClockCircleOutlined />,
+        title: (
+          <Space>
+            <ClockCircleOutlined />
+            Status
+          </Space>
+        ),
         dataIndex: "status",
+        width: 80,
         key: "status",
         render: (status) => (
           <Tag
@@ -212,7 +218,7 @@ const flattenTasks = (list, level = 0) => {
       title: (
         <Space>
           <UserOutlined />
-          Assignee
+          Assigned
         </Space>
       ),
       dataIndex: "assignee",

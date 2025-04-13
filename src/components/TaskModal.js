@@ -56,6 +56,7 @@ const TaskModal = ({ open, onClose, onSave, initialData }) => {
         onOk={() => form.submit()}
         okText="บันทึก"
         cancelText="ยกเลิก"
+        forceRender
         okButtonProps={{
           style: {
             backgroundColor: "#7b61ff",
