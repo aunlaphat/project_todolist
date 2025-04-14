@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadTasks } from "../utils/localStorage";
 import {Card, Typography, Tag, Space, Button, Divider, Progress, Table, } from "antd";
-import {LeftOutlined, ThunderboltOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
- ShareAltOutlined, AppstoreAddOutlined, CloseOutlined, EyeOutlined, } from "@ant-design/icons";
+import {LeftOutlined, ThunderboltOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, ShareAltOutlined, AppstoreAddOutlined, CloseOutlined, EyeOutlined, } from "@ant-design/icons";
 import dayjs from "dayjs";
 
 const { Title, Text, } = Typography;
@@ -75,7 +74,7 @@ const TaskDetail = () => {
         </Space>
       </div>
 
-      <Card bordered bodyStyle={{ padding: 24 }}>
+      <Card>
         <Space size="large" direction="horizontal" style={{ marginBottom: 16 }}>
           <Tag color="#b37feb" style={{ fontSize: 16 }}>{task.key}</Tag>
           <Title level={3} style={{ margin: 0 }}>
@@ -103,7 +102,6 @@ const TaskDetail = () => {
             />
           </>
         )}
-
         <Divider />
 
         <Text strong style={{ fontSize: 16 }}>Details</Text>

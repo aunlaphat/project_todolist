@@ -32,39 +32,34 @@ export default function Login() {
   };
 
   return (
-<div
-  style={{
-    minHeight: "100vh",
-    display: "flex",
-    background: "linear-gradient(to right, #ede9f3, #f5f3fa)",
-    position: "relative",
-  }}
->
-  {/* โลโก้มุมบนซ้าย */}
-  <img
-    src={logo}
-    alt="EasyTask Logo"
-    style={{
-      position: "absolute",
-      top: 10,
-      left: 32,
-      width: 200,
-      filter: "drop-shadow(0 4px 6px rgba(123, 97, 255, 0.2))",
-    }}
-  />
-
-  {/* พื้นหลังด้านซ้าย */}
-  <div
-    style={{
-      flex: 1,
-      backgroundImage: `url(${bgImage})`,
-      backgroundSize: "contain",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-    }}
-  />
-
-      {/* ขวา - กล่องฟอร์ม + โลโก้ */}
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        background: "linear-gradient(to right, #ede9f3, #f5f3fa)",
+        position: "relative",
+      }}
+    >
+      <img
+        src={logo}
+        alt="EasyTask Logo"
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 32,
+          width: 200,
+          filter: "drop-shadow(0 4px 6px rgba(123, 97, 255, 0.2))",
+        }}
+      />
+      <div
+        style={{
+          flex: 1,
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      />
       <div
         style={{
           flex: 1,
@@ -85,12 +80,9 @@ export default function Login() {
             textAlign: "center",
           }}
         >
-            
-      
           <Title level={3} style={{ color: "#7b61ff", marginBottom: 32 }}>
             Welcome to EasyTask
           </Title>
-
           <Form layout="vertical" onFinish={handleSubmit} style={{ width: "100%" }}>
             <Form.Item name="username" label="Username" rules={[{ required: true }]}>
               <Input placeholder="Enter your username" />

@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select, Typography, } from "antd";
-import {
-    EditOutlined,
-    UserOutlined,
-    CalendarOutlined,
-    RocketOutlined,
-    FileTextOutlined,
-  } from "@ant-design/icons";
+import {EditOutlined, UserOutlined, CalendarOutlined, RocketOutlined, FileTextOutlined, } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { PRIORITY_OPTIONS } from "../data/constants";
 

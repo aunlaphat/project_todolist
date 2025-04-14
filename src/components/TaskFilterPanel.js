@@ -1,15 +1,15 @@
-import { DatePicker, Checkbox, Avatar, Divider } from "antd";
-import { UserOutlined, CalendarOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { DatePicker, Checkbox, Avatar, Divider, } from "antd";
+import { UserOutlined, CalendarOutlined, CheckCircleOutlined, } from "@ant-design/icons";
 
 const TaskFilterPanel = ({
   filter,
   setFilter,
   assigneeList
 }) => {
+
   return (
     <div style={{ padding: 12, width: 280 }}>
       <h4 style={{ marginBottom: 12, fontWeight: 600 }}>FILTERS</h4>
-
       <Checkbox
         checked={filter.assignedToMe}
         onChange={(e) => setFilter({ ...filter, assignedToMe: e.target.checked })}
@@ -30,7 +30,6 @@ const TaskFilterPanel = ({
       >
         <CheckCircleOutlined /> Done items
       </Checkbox>
-
       <Divider />
 
       <div style={{ marginBottom: 8 }}>Date range</div>
@@ -39,7 +38,6 @@ const TaskFilterPanel = ({
         onChange={(value) => setFilter({ ...filter, dateRange: value })}
         style={{ width: "100%" }}
       />
-
       <Divider />
 
       <div style={{ marginBottom: 8 }}>Assigned</div>

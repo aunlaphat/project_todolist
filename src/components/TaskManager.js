@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import TaskTable from "./TaskTable";
 import TaskModal from "./TaskModal";
 import TaskFilterPanel from "./TaskFilterPanel";
-import cuteImage from "../assets/images/Work in progress-amico.png";
+import image from "../assets/images/Work in progress-amico.png";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState(() => loadTasks());
@@ -16,7 +16,7 @@ const TaskManager = () => {
   const [searchText, setSearchText] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-const toggleFilter = () => setShowFilter(prev => !prev);
+  const toggleFilter = () => setShowFilter(prev => !prev);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -125,8 +125,6 @@ const toggleFilter = () => setShowFilter(prev => !prev);
   
     setTasks(toggle(tasks));
   };
-  
-  
 
   const handleInlineUpdate = (key, field, value) => {
     const update = (list) =>
@@ -186,7 +184,6 @@ const toggleFilter = () => setShowFilter(prev => !prev);
   
   const filteredTasks = filterTasksPreserveExpand(tasks, searchText);
   
-
   const containerStyle = {
     backgroundColor: darkMode ? "#1f1f2e" : "#f4f2fa",
     color: darkMode ? "#fff" : "#333",
@@ -207,12 +204,10 @@ const toggleFilter = () => setShowFilter(prev => !prev);
         />
 
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <Button icon={<FilterOutlined />} onClick={toggleFilter}>Filter</Button>
-
+          <Button icon={<FilterOutlined />} onClick={toggleFilter}>Filter</Button>
           <Button icon={<DownloadOutlined />} onClick={handleExport}>Export</Button>
           <Button icon={<UploadOutlined />} onClick={() => document.getElementById("import-file").click()}>Import</Button>
           <input type="file" id="import-file" accept="application/json" onChange={handleImport} style={{ display: "none" }} />
-
           <Button
             icon={<PlusOutlined />}
             type="primary"
@@ -221,7 +216,6 @@ const toggleFilter = () => setShowFilter(prev => !prev);
           >
             เพิ่ม Task
           </Button>
-
           <Switch
             checkedChildren={<BulbOutlined />}
             unCheckedChildren={<BulbOutlined />}
@@ -240,39 +234,37 @@ const toggleFilter = () => setShowFilter(prev => !prev);
         onInlineUpdate={handleInlineUpdate}
         onOpenDetail={(key) => navigate(`/information-task/${key}`)}
         onAddSubtask={(key) =>
-          handleEdit({ parentId: key, level: 1 }) // หรือ level จาก record.level + 1
+          handleEdit({ parentId: key, level: 1 }) 
         }
         onToggleExpand={handleToggleExpand}
       />
 
-{showFilter && (
-  <div style={{
-    position: "absolute",
-    top: 70,
-    right: 20,
-    background: "#fff",
-    borderRadius: 8,
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-    zIndex: 2,
-    padding: 16
-  }}>
-    <TaskFilterPanel
-      filter={filter}
-      setFilter={setFilter}
-      assigneeList={[...new Set(tasks.map(t => t.assignee).filter(Boolean))]}
-    />
-  </div>
-)}
-
+      {showFilter && (
+        <div style={{
+          position: "absolute",
+          top: 70,
+          right: 20,
+          background: "#fff",
+          borderRadius: 8,
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          zIndex: 2,
+          padding: 16
+        }}>
+          <TaskFilterPanel
+            filter={filter}
+            setFilter={setFilter}
+            assigneeList={[...new Set(tasks.map(t => t.assignee).filter(Boolean))]}
+          />
+        </div>
+      )}
       <TaskModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
         initialData={editingTask}
       />
-
       <img
-        src={cuteImage}
+        src={image}
         alt="Cute Decoration"
         style={{
           position: "fixed",

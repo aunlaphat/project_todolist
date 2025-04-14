@@ -1,84 +1,33 @@
 import React from "react";
-import {
-  Table,
-  Checkbox,
-  Tooltip,
-  DatePicker,
-  Button,
-  Select,
-  Space,
-  Typography,
-  Tag,
-} from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  CopyOutlined,
-  PlusOutlined,
-  CalendarOutlined,
-  AlignLeftOutlined,
-  UserOutlined,
-  ClockCircleOutlined,
-  NumberOutlined,
-  ThunderboltOutlined,
-  DownOutlined, RightOutlined,
-} from "@ant-design/icons";
+import {Table, Checkbox, Tooltip, DatePicker, Button, Select, Space, Typography, Tag, } from "antd";
+import {EditOutlined,DeleteOutlined,CopyOutlined,PlusOutlined,CalendarOutlined,AlignLeftOutlined,UserOutlined,ClockCircleOutlined, NumberOutlined, ThunderboltOutlined, DownOutlined, RightOutlined, } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { PRIORITY_OPTIONS } from "../data/constants";
 import { statusColorMap } from "../utils/statusColors";
 
 const { Paragraph } = Typography;
 
-const TaskTable = ({
-  tasks,
-  onStatusChange,
-  onEdit,
-  onDelete,
-  onInlineUpdate,
-  onOpenDetail,
-  onAddSubtask,
-  onToggleExpand,
-  setTasks,
-}) => {
+const TaskTable = ({tasks, onStatusChange, onEdit, onDelete, onInlineUpdate, onOpenDetail, onAddSubtask, onToggleExpand, setTasks, }) => {
   const handleCopyLink = (key) => {
     const url = `${window.location.origin}/information-task/${key}`;
     navigator.clipboard.writeText(url);
   };
 
-//   const toggleExpand = (key) => {
-//     // สมมติว่าคุณเก็บ expanded state ไว้ใน task
-//     const updateExpand = (list) =>
-//       list.map((task) => {
-//         if (task.key === key) {
-//           return { ...task, expanded: !task.expanded };
-//         }
-//         if (task.children) {
-//           return { ...task, children: updateExpand(task.children) };
-//         }
-//         return task;
-//       });
-  
-//     setTasks(updateExpand(tasks)); // หรือ state จาก props
-//   };
-
-// Flatten tree by recursion only expanded nodes
-const flattenTasks = (list, level = 0) => {
-    return list.reduce((acc, task) => {
-      const item = { ...task, level };
-      acc.push(item);
-  
-      if (task.expanded && task.children?.length > 0) {
-        acc.push(...flattenTasks(task.children, level + 1));
-      }
-  
-      return acc;
-    }, []);
+  const flattenTasks = (list, level = 0) => {
+      return list.reduce((acc, task) => {
+        const item = { ...task, level };
+        acc.push(item);
+    
+        if (task.expanded && task.children?.length > 0) {
+          acc.push(...flattenTasks(task.children, level + 1));
+        }
+    
+        return acc;
+      }, []);
   };
-  
+    
   const flattenedData = flattenTasks(tasks);
   
-  
-
   const columns = [
     {
       title: "",
@@ -150,143 +99,140 @@ const flattenTasks = (list, level = 0) => {
           );
         },
       },
-    {
-      title: (
-        <Space>
-          <NumberOutlined />
-          Key
-        </Space>
-      ),
-      dataIndex: "key",
-      width: 200,
-      render: (key, record) => (
-        <Space>
-          <Button type="link" onClick={() => onOpenDetail(key)}>
-            {key}
-          </Button>
-          <Tooltip title="Copy link">
-            <Button
-              size="small"
-              icon={<CopyOutlined />}
-              onClick={() => handleCopyLink(key)}
-            />
-          </Tooltip>
-        </Space>
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <AlignLeftOutlined />
-          Summary
-        </Space>
-      ),
-      dataIndex: "title",
-      width: 200,
-      render: (text, record) => (
-        <Paragraph
-        editable={{
-          onChange: (val) => onInlineUpdate(record.key, "title", val),
-        }}
-        style={{ margin: 0 }}
-      >
-        {text}
-      </Paragraph>
-      
-      ),
-    },
-    {
+      {
         title: (
           <Space>
-            <ClockCircleOutlined />
-            Status
+            <NumberOutlined />
+            Key
           </Space>
         ),
-        dataIndex: "status",
-        width: 80,
-        key: "status",
-        render: (status) => (
-          <Tag
-            color={statusColorMap[status] || "default"}
-            style={{ fontWeight: "bold", textTransform: "uppercase" }}
-          >
-            {status}
-          </Tag>
+        dataIndex: "key",
+        width: 200,
+        render: (key, record) => (
+          <Space>
+            <Button type="link" onClick={() => onOpenDetail(key)}>
+              {key}
+            </Button>
+            <Tooltip title="Copy link">
+              <Button
+                size="small"
+                icon={<CopyOutlined />}
+                onClick={() => handleCopyLink(key)}
+              />
+            </Tooltip>
+          </Space>
         ),
       },
-    {
-      title: (
-        <Space>
-          <UserOutlined />
-          Assigned
-        </Space>
-      ),
-      dataIndex: "assignee",
-      width: 140,
-      render: (text) => text || "-",
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined />
-          Due Date
-        </Space>
-      ),
-      dataIndex: "dueDate",
-      width: 160,
-      render: (date, record) => (
-        <DatePicker
-          value={date ? dayjs(date) : null}
-          onChange={(val) =>
-            onInlineUpdate(record.key, "dueDate", val ? val.toISOString() : null)
-          }
-          format="MMM D, YYYY"
-        />
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined />
-          Updated
-        </Space>
-      ),
-      dataIndex: "updatedAt",
-      width: 130,
-      render: (date) =>
-        date ? dayjs(date).format("MMM D, YYYY") : "-",
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined />
-          Created
-        </Space>
-      ),
-      dataIndex: "createdAt",
-      width: 130,
-      render: (date) =>
-        date ? dayjs(date).format("MMM D, YYYY") : "-",
-    },
-    {
-      title: "Action",
-      key: "action",
-      fixed: "right",
-      width: 120,
-      render: (_, record) => (
-        <Space>
-          <Tooltip title="Edit">
-            <Button icon={<EditOutlined />} onClick={() => onEdit(record)} />
-          </Tooltip>
-          <Tooltip title="Delete">
-            <Button icon={<DeleteOutlined />} danger onClick={() => onDelete(record.key)} />
-          </Tooltip>
-          {/* <Tooltip title="Add Subtask">
-            <Button icon={<PlusOutlined />} onClick={() => onEdit({ parentId: record.key, level: (record.level || 0) + 1 })} />
-          </Tooltip> */}
-        </Space>
-      ),
-    },
+      {
+        title: (
+          <Space>
+            <AlignLeftOutlined />
+            Summary
+          </Space>
+        ),
+        dataIndex: "title",
+        width: 200,
+        render: (text, record) => (
+          <Paragraph
+          editable={{
+            onChange: (val) => onInlineUpdate(record.key, "title", val),
+          }}
+          style={{ margin: 0 }}
+        >
+          {text}
+        </Paragraph>
+        
+        ),
+      },
+      {
+          title: (
+            <Space>
+              <ClockCircleOutlined />
+              Status
+            </Space>
+          ),
+          dataIndex: "status",
+          width: 80,
+          key: "status",
+          render: (status) => (
+            <Tag
+              color={statusColorMap[status] || "default"}
+              style={{ fontWeight: "bold", textTransform: "uppercase" }}
+            >
+              {status}
+            </Tag>
+          ),
+      },
+      {
+        title: (
+          <Space>
+            <UserOutlined />
+            Assigned
+          </Space>
+        ),
+        dataIndex: "assignee",
+        width: 140,
+        render: (text) => text || "-",
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined />
+            Due Date
+          </Space>
+        ),
+        dataIndex: "dueDate",
+        width: 160,
+        render: (date, record) => (
+          <DatePicker
+            value={date ? dayjs(date) : null}
+            onChange={(val) =>
+              onInlineUpdate(record.key, "dueDate", val ? val.toISOString() : null)
+            }
+            format="MMM D, YYYY"
+          />
+        ),
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined />
+            Updated
+          </Space>
+        ),
+        dataIndex: "updatedAt",
+        width: 130,
+        render: (date) =>
+          date ? dayjs(date).format("MMM D, YYYY") : "-",
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined />
+            Created
+          </Space>
+        ),
+        dataIndex: "createdAt",
+        width: 130,
+        render: (date) =>
+          date ? dayjs(date).format("MMM D, YYYY") : "-",
+      },
+      {
+        title: "Action",
+        key: "action",
+        fixed: "right",
+        width: 120,
+        render: (_, record) => (
+          <Space>
+            <Tooltip title="Edit">
+              <Button icon={<EditOutlined />} onClick={() => onEdit(record)} />
+            </Tooltip>
+            <Tooltip title="Delete">
+              <Button icon={<DeleteOutlined />} danger onClick={() => onDelete(record.key)} />
+            </Tooltip>
+          </Space>
+        ),
+      },
   ];
 
   return (
@@ -299,8 +245,8 @@ const flattenTasks = (list, level = 0) => {
       bordered
       rowClassName={() => "task-row"}
       expandable={{
-        childrenColumnName: "__DO_NOT_EXPAND__", // ชื่อหลอก ทำให้ไม่แสดง expand
-        expandIconColumnIndex: -1, // ปิดคอลัมน์ expand icon
+        childrenColumnName: "__DO_NOT_EXPAND__", 
+        expandIconColumnIndex: -1, 
       }}
     />
   );

@@ -26,12 +26,12 @@ export default function Navbar() {
         justifyContent: "space-between",
       }}
     >
-      {/* ✅ ชื่อแอปอยู่ซ้าย */}
+      {/* ✅ ชื่อแอป */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-    <img src={logo} alt="EasyTask Logo" style={{ height: 140, objectFit: "contain"}} />
-  </div>
+        <img src={logo} alt="EasyTask Logo" style={{ height: 140, objectFit: "contain"}} />
+      </div>
 
-      {/* ✅ ปุ่มต่าง ๆ ด้านขวา */}
+      {/* ✅ menu ต่าง ๆ */}
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <Tooltip title="Notifications">
           <BellOutlined style={{ fontSize: 18 }} />
